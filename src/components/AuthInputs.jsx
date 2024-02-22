@@ -1,12 +1,43 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { styled } from "styled-components";
+import CustomInput from "./styled-components/StyledInput";
+
+/*
+ * Will created a div as a STYLED component
+ * Back tick => Tagged template or template literals (see mdm).
+ */
+const ControlContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+`;
+
+/*
+ * How to handle the pseudo selectors.
+ */
+const ControlButton = styled.button`
+  padding: 1rem 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+  color: #1f2937;
+  background-color: #f0b322;
+  border-radius: 6px;
+  border: none;
+
+  &:hover {
+    background-color: #f0920e;
+  }
+`;
 
 export default function AuthInputs() {
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   function handleInputChange(identifier, value) {
-    if (identifier === 'email') {
+    if (identifier === "email") {
       setEnteredEmail(value);
     } else {
       setEnteredPassword(value);
@@ -17,36 +48,38 @@ export default function AuthInputs() {
     setSubmitted(true);
   }
 
-  const emailNotValid = submitted && !enteredEmail.includes('@');
+  const emailNotValid = submitted && !enteredEmail.includes("@");
   const passwordNotValid = submitted && enteredPassword.trim().length < 6;
 
   return (
     <div id="auth-inputs">
-      <div className="controls">
+      <ControlContainer>
         <p>
-          <label>Email</label>
-          <input
+          <CustomInput
+            label="Email"
             type="email"
-            className={emailNotValid ? 'invalid' : undefined}
-            onChange={(event) => handleInputChange('email', event.target.value)}
+            invalid={emailNotValid}
+            onChange={(event) => handleInputChange("email", event.target.value)}
           />
         </p>
         <p>
-          <label>Password</label>
-          <input
+          <CustomInput
+            label="Password"
             type="password"
-            className={passwordNotValid ? 'invalid' : undefined}
+            invalid={emailNotValid}
             onChange={(event) =>
-              handleInputChange('password', event.target.value)
+              handleInputChange("password", event.target.value)
             }
           />
         </p>
-      </div>
+      </ControlContainer>
       <div className="actions">
         <button type="button" className="text-button">
           Create a new account
         </button>
-        <button className='button' onClick={handleLogin}>Sign In</button>
+        <ControlButton className="button" onClick={handleLogin}>
+          Sign In
+        </ControlButton>
       </div>
     </div>
   );
